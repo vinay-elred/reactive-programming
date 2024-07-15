@@ -13,26 +13,36 @@ class ShoppingCart extends StatelessWidget {
         title: const Text("Cart"),
       ),
       body: ListView.builder(
+        itemCount: vm.items.length,
         itemBuilder: (context, index) {
-          return InkWell(
-            onTap: vm.addItem,
-            child: Container(
-              width: double.infinity,
-              color: Colors.amber,
-              height: 100,
-              margin: const EdgeInsets.all(8),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('$index'),
-                  const SizedBox(height: 20),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.favorite),
+          return Container(
+            width: double.infinity,
+            color: Colors.amber,
+            height: 100,
+            margin: const EdgeInsets.all(8),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('$index'),
+                const SizedBox(height: 20),
+                IconButton(
+                  onPressed: () => vm.toggleLike(vm.items[index]),
+                  icon: StreamBuilder(
+                    stream: vm.allCartItems,
+                    builder: (context, snapshot) {
+                      bool isLike = vm.isLiked(vm.items[index]);
+                      if (isLike) {
+                        return const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        );
+                      }
+                      return const Icon(Icons.favorite_outline);
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -46,10 +56,11 @@ class ShoppingCart extends StatelessWidget {
               ));
         },
         child: StreamBuilder(
-          stream: vm.cartCount,
+          stream: vm.allCartItems,
           builder: (context, snapshot) {
-            if (snapshot.data == null) return const Icon(Icons.card_travel);
-            return Text(snapshot.data.toString());
+            final len = snapshot.data?.length ?? 0;
+            if (len == 0) return const Icon(Icons.card_travel);
+            return Text(len.toString());
           },
         ),
       ),

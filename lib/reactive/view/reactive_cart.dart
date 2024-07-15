@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../reactive/ovserver.dart';
-import '../reactive/cart_view_model.dart';
+import '../ovserver.dart';
+import '../cart_view_model.dart';
 
 class ReactiveCart extends StatefulWidget {
   const ReactiveCart({super.key});

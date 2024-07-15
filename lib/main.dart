@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_programming/view/shopping_cart.dart';
 
-import 'view/reactive_cart.dart';
+import 'reactive/view/reactive_cart.dart';
 
 void main() {
   runApp(const MyApp());
